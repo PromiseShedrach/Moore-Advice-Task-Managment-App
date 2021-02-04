@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $fillable = [
-        'taskName', 'dueDate'
+        'name'
     ];
+
+
+    
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst($value);
+    }
 }
