@@ -125,7 +125,7 @@ export function Task() {
                                 <input type="email" className="form-control" name="name" onChange={event => setTask(event.target.value)} placeholder="Enter task" />
                                 <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
-                            <button type="submit" onClick={submitData} className="btn btn-primary">{getBtn}</button>
+                            <button type="submit" onClick={submitData} className="btn btn-primary text-center">{getBtn}</button>
                         </form>
                     </div>
                 </div>
