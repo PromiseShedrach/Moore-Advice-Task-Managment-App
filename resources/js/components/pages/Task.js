@@ -33,7 +33,7 @@ export function Task() {
 
 
     async function fetchTask() {
-        await Axios.get("http://taskmanager.test/api/tasks").then((repos) => {
+        await Axios.get("https://moore-task-app.herokuapp.com/api/tasks").then((repos) => {
             const data = repos.data;
             setAllTask({
                 tasks: data.tasks,
@@ -52,7 +52,7 @@ export function Task() {
         data.preventDefault()
         setBtn('Submitting...')
 
-        Axios.post('http://taskmanager.test/api/add',
+        Axios.post('https://moore-task-app.herokuapp.com/api/add',
             {
                 name: getTask,
             }
@@ -82,7 +82,7 @@ export function Task() {
         setAlert({alert: false})
         data.preventDefault()
 
-        Axios.post('http://taskmanager.test/api/delete',
+        Axios.post('https://moore-task-app.herokuapp.com/api/delete',
             {
                 id: id,
             }

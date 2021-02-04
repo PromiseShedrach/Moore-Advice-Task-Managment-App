@@ -2349,7 +2349,7 @@ function Task() {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://taskmanager.test/api/tasks").then(function (repos) {
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("https://moore-task-app.herokuapp.com/api/tasks").then(function (repos) {
                 var data = repos.data;
                 setAllTask({
                   tasks: data.tasks,
@@ -2374,7 +2374,7 @@ function Task() {
   function submitData(data) {
     data.preventDefault();
     setBtn('Submitting...');
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post('http://taskmanager.test/api/add', {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('https://moore-task-app.herokuapp.com/api/add', {
       name: getTask
     }).then(function (resp) {
       setBtn('Submit');
@@ -2402,7 +2402,7 @@ function Task() {
       alert: false
     });
     data.preventDefault();
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post('http://taskmanager.test/api/delete', {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('https://moore-task-app.herokuapp.com/api/delete', {
       id: id
     }).then(function (resp) {
       if (resp.data.status == 'success' && resp.statusText == 'OK') {
