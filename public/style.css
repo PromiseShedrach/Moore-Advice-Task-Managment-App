@@ -11,3 +11,8 @@
 .padding{
     padding: 50px opx
 }
+
+.middle{
+    display: block;
+    margin: auto;
+}
