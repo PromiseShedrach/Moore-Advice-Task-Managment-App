@@ -9,6 +9,9 @@
 * Seeded admin login details. Email -> admin@gmail.com | Password -> 1234567 (very funny right?)
 * You can now run the local server using `php artisan serve`
 
+
+Note: to modify APIs, check it out in the route->api.php file
+
 ## Live Dome
 https://moore-task-app.herokuapp.com/
 
