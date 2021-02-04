@@ -1,8 +1,6 @@
 # Moore Advice Tesk Managment App
 
-# TESK-app
-
-## Get On
+## How to setup project for local development - Lets Get it Done
 * Clone the repository from Github https://github.com/PromiseShedrach/Moore-Advice-Task-Managment-App
 * Run  `composer update` to get all packages into the project (Laravel part)
 * Run  `npm run development` to get all packages into the project (React part)
@@ -10,6 +8,9 @@
 * Run  `php artisan migrate --seed` to migrate database and seed data into
 * Seeded admin login details. Email -> admin@gmail.com | Password -> 1234567 (very funny right?)
 * You can now run the local server using `php artisan serve`
+
+## Live Dome
+https://moore-task-app.herokuapp.com/
 
 
 ## Frameworks/APIS/Libraries/etc
