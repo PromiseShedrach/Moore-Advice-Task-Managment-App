@@ -55,8 +55,6 @@ export function Task() {
         ).then((resp) => {
 
             setBtn('Submit')
-            var status = ''
-
             if (resp.data.status == 'success' && resp.statusText == 'OK') {
                 document.getElementById('form').reset()
                 setAllTask({
@@ -82,10 +80,6 @@ export function Task() {
                 id: id,
             }
         ).then((resp) => {
-
-            setBtn('Submit')
-            var status = ''
-
             if (resp.data.status == 'success' && resp.statusText == 'OK') {
                 document.getElementById('form').reset()
                 setAllTask({
