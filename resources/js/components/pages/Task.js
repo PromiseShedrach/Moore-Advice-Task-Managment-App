@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import Axios from "axios";
+import { Nav } from '../Nav'
 
 
 export function Task() {
@@ -15,11 +17,17 @@ export function Task() {
         add: false,
         delete: false
     });
+    const [getRedirect, setRedirect] = useState(false);
 
     useEffect(() => {
         const abortController = new AbortController()
         const signal = abortController.signal
 
+
+        //get token
+        if(!localStorage.getItem('token')){
+            setRedirect(true)
+        }
 
         //to get products data
         fetchTask()
@@ -46,11 +54,18 @@ export function Task() {
         })
     }
 
+    function renderRedirect() {
+        if (getRedirect) {
+            return <Redirect to='/Login' />
+        }
+    }
+
 
 
     function submitData(data) {
         data.preventDefault()
         setBtn('Submitting...')
+        setAlert({ delete: false, add: false })
 
         Axios.post('https://moore-task-app.herokuapp.com/api/add',
             {
@@ -67,7 +82,7 @@ export function Task() {
                 })
                 setBtn('Submit')
                 setAlert({
-                    alert: true,
+                    add: true,
                     message: 'Tasks added successfully'
                 })
             } else {
@@ -79,7 +94,7 @@ export function Task() {
 
 
     function deleteTask(id, data) {
-        setAlert({alert: false})
+        setAlert({ delete: false, add: false })
         data.preventDefault()
 
         Axios.post('https://moore-task-app.herokuapp.com/api/delete',
@@ -94,8 +109,8 @@ export function Task() {
                     loading: true,
                 })
                 setAlert({
-                    alert: true,
-                    message:'Tasks deleted successfully'
+                    delete: true,
+                    message: 'Tasks deleted successfully'
                 })
             } else {
                 alert('An Error Ocurred')
@@ -106,68 +121,70 @@ export function Task() {
 
     return (
         <div>
+            {renderRedirect()}
+            <Nav />
             <div className="container">
-                <div className="row justify-content-center">
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                        <a className="navbar-brand" href="#">Admin Panel</a>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon" />
-                        </button>
-                    </nav>
-                </div>
-
-                <div className="row marginTop">
+                <div className="row marginTop" style={{ borderRadius: 30, background: 'white', padding: 20 }}>
                     <div className="col-md-12">
-                        <h1 className="text-center" >Add Task</h1>
+                        <h4 className="text-center" style={{ letterSpacing: 4 }}>ADD TASK</h4>
                         <br></br>
                     </div>
 
                     <div className="col-md-12">
-                        <form id="form">
+                        <form id="form" style={{width:'70%', margin:'auto'}}>
                             <div className="form-group">
                                 <label htmlFor="exampleInputEmail1">Task Name</label>
                                 <input type="email" className="form-control" name="name" onChange={event => setTask(event.target.value)} placeholder="Enter task" />
                             </div>
-                            <button type="submit" onClick={submitData} className="btn btn-primary  middle">{getBtn}</button>
+                            <div className="col-md-12" style={{ textAlign: "center", margin: "auto", color: 'white' }}>
+                                <br></br>
+                                <button type="submit" onClick={submitData} className="btn btn-secondary btn-lg btn-primary">{getBtn}</button>
+                            </div>
+                            {
+                                getAlert.add ? (<div className="col-md-12 text-center" style={{ textAlign: 'center' }}>
+                                    <br></br>
+                                    <span className="text-success">{getAlert.message}</span>
+                                </div>) : <span></span>
+                            }
                         </form>
                     </div>
                 </div>
 
 
                 <div className="row justify-content-center">
-                    
-                    {
-                        getAlert.alert ? (<div className="col-md-12 text-center" style={{textAlign:'center'}}>
-                            <span className="text-success">{getAlert.message}</span>
-                        </div>) : <span></span>
-                    }
 
                     <div className="col-md-12 marginTop" >
-                        <h2 className="text-center">All Tasks</h2>
-                        <br></br>
-                        <div className="card padding">
+                        <div className="card padding" style={{ borderRadius: 30, background: 'white', padding: 10 }}>
+                            <h4 className="text-center" style={{ letterSpacing: 4 }}>MY TASKS</h4>
+                            <hr></hr> <br></br>
+                            {
+                                getAlert.delete ? (<div className="col-md-12 text-center" style={{ textAlign: 'center' }}>
+                                    <span className="text-success">{getAlert.message}</span>
+                                </div>) : <span></span>
+                            }
+                            <br></br>
                             <ol className="padding">
                                 {getAllTask.loading ? (
                                     getAllTask.tasks.map((task, id) => {
                                         return (
 
 
-                                            <div className="row" key={task.id}>
-                                                <div className="col-md-8">
+                                            <div className="row" key={task.id} style={{ width: '80%', background: "#e9ebee", borderRadius: 20, marginBottom: 20, padding: "6px" }}>
+                                                <div className="col-md-8 col-xs-6">
                                                     <li > <b > {task.name}</b>  </li>
                                                 </div>
-                                                <div className="col-md-4">
-                                                    <a href="#" style={{ color: "red" }} onClick={deleteTask.bind(this, task.id)}><i className="fa fa-trash">Delete</i></a>
+                                                <div className="col-md-4 col-xs-6">
+                                                    <a href="#" style={{ color: "red" }} onClick={deleteTask.bind(this, task.id)}><i className="fa fa-trash"></i></a>
                                                 </div>
-                                                <hr />
                                             </div>
-
 
                                         );
 
                                     })
                                 ) : (
-                                        <span className="text-center"> <br></br> <b>Loading Data...</b> </span>
+                                        <div className="col-md-12 text-center" style={{ margin: "auto" }}>
+                                            <span className="text-primary"><b>Data Loading...</b></span>
+                                        </div>
                                     )}
 
 

@@ -27,6 +27,7 @@ header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Author
 
 
 Route::post('login', [App\Http\Controllers\HomeController::class, 'login']);
+Route::post('register', [App\Http\Controllers\HomeController::class, 'register']);
 Route::get('tasks', [App\Http\Controllers\TaskController::class, 'index']);
 Route::post('add', [App\Http\Controllers\TaskController::class, 'store']);
 Route::post('delete', [App\Http\Controllers\TaskController::class, 'destroy']);

@@ -39,4 +39,27 @@ class HomeController extends Controller
                 return response()->json(['status'=>'error2'], 200);
             }
       }
+
+
+
+      public function register(Request $request){
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
+         //generating new api token
+         $user_token = bin2hex(openssl_random_pseudo_bytes(30));
+
+        User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'api_token' => $user_token,
+        ]);
+
+        return response()->json(['status' => 'success', 'token' => $user_token], 200);
+        
+      }
 }
