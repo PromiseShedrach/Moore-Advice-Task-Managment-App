@@ -1,4 +1,4 @@
-# Moore Advice Tesk Managment App
+# Moore Advice Task Managment App
 
 ## How to setup project for local development - Lets Get it Done
 * Clone the repository from Github https://github.com/PromiseShedrach/Moore-Advice-Task-Managment-App
@@ -6,7 +6,7 @@
 * Run  `npm run development` to get all packages into the project (React part)
 * set up your database on your local server and edit the database name on your .env file
 * Run  `php artisan migrate --seed` to migrate database and seed data into
-* Seeded admin login details. Email -> admin@gmail.com | Password -> 1234567 (very funny right?)
+* Seeded admin login details. Email -> admin@gmail.com | Password -> 12345678 (very funny right?)
 * You can now run the local server using `php artisan serve`
 
 
