@@ -46,7 +46,7 @@ export function Register() {
         if (getEmail && getName && getPassword && getConfirmPass) {
             if ((getPassword.length) >= 8) {
                 if (getPassword == getConfirmPass) {
-                    Axios.post('https://moore-task-app.herokuapp.com/api/register',
+                    Axios.post('https://moore-task-app.herokuapp.com/api/register_users',
                         {
                             email: getEmail,
                             name: getName,
@@ -116,11 +116,11 @@ export function Register() {
                                 <div className="row">
                                     <div className="form-group col-md-12 col-md-offset-4 ">
                                         <label htmlFor="exampleInputEmail1">Full Name</label>
-                                        <input type="text" name="name" className="form-control" id="exampleInputEmail1" placeholder="Enter Full Name" onChange={event => setName(event.target.value)} />
+                                        <input type="text" name="name" className="form-control"  placeholder="Enter Full Name" onChange={event => setName(event.target.value)} />
                                     </div>
                                     <div className="form-group col-md-12 col-md-offset-4 ">
                                         <label htmlFor="exampleInputEmail1">Email address</label>
-                                        <input type="email" name="email" className="form-control" id="exampleInputEmail1" placeholder="Enter email" onChange={event => setEmail(event.target.value)} />
+                                        <input type="email" name="email" className="form-control"  placeholder="Enter email" onChange={event => setEmail(event.target.value)} />
                                         <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                                     </div>
                                     <div className="form-group col-md-12 col-md-offset-4">

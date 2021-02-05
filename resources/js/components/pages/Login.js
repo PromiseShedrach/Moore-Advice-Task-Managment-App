@@ -55,7 +55,7 @@ export function Login() {
                     success:true,
                     message: 'Login Successfully'
                 })
-                console.log(token);
+                //console.log(token);
                 localStorage.setItem('token', token);
                 setRedirect(true)
             } else {
