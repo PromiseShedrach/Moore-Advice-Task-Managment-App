@@ -12,7 +12,7 @@
 
 Note: to modify APIs, check it out in the route->api.php file
 
-## Live Dome
+## Live Demo
 https://moore-task-app.herokuapp.com/
 
 
