@@ -2533,7 +2533,7 @@ function Register() {
     if (getEmail && getName && getPassword && getConfirmPass) {
       if (getPassword.length >= 8) {
         if (getPassword == getConfirmPass) {
-          axios__WEBPACK_IMPORTED_MODULE_1___default().post('https://moore-task-app.herokuapp.com/api/register_users', {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post('https://moore-task-app.herokuapp.com/api/register', {
             email: getEmail,
             name: getName,
             password: getPassword

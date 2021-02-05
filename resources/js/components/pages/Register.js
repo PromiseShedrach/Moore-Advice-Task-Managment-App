@@ -46,7 +46,7 @@ export function Register() {
         if (getEmail && getName && getPassword && getConfirmPass) {
             if ((getPassword.length) >= 8) {
                 if (getPassword == getConfirmPass) {
-                    Axios.post('https://moore-task-app.herokuapp.com/api/register_users',
+                    Axios.post('https://moore-task-app.herokuapp.com/api/register',
                         {
                             email: getEmail,
                             name: getName,
