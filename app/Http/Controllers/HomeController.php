@@ -55,6 +55,7 @@ class HomeController extends Controller
         User::create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'role' => 'User',
             'password' => Hash::make($request['password']),
             'api_token' => $user_token,
         ]);
