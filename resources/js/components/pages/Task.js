@@ -25,7 +25,7 @@ export function Task() {
 
 
         //get token
-        if(!localStorage.getItem('token')){
+        if (!localStorage.getItem('token')) {
             setRedirect(true)
         }
 
@@ -41,16 +41,26 @@ export function Task() {
 
 
     async function fetchTask() {
-        await Axios.get("https://moore-task-app.herokuapp.com/api/tasks").then((repos) => {
-            const data = repos.data;
-            setAllTask({
-                tasks: data.tasks,
-                loading: true,
-            })
+        var token = localStorage.getItem('token');
+        await Axios.get("https://moore-task-app.herokuapp.com/api/tasks", {
+            headers: {
+                'Authorization': token
+            }
+        }).then((resp) => {
+            const data = resp.data;
+            //console.log(data);
+            if (resp.data.status == 'success' && resp.statusText == 'OK') {
+                setAllTask({
+                    tasks: data.tasks,
+                    loading: true,
+                })
+            } else {
+                alert('An error occurred');
+            }
             // console.log(data.tasks);
             // console.log(getAllTask.tasks);
-        }).catch(() => { //if an error was found run the api call again
-            console.log('error');
+        }).catch((e) => { //if an error was found run the api call again
+            console.log(e);
         })
     }
 
@@ -66,11 +76,16 @@ export function Task() {
         data.preventDefault()
         setBtn('Submitting...')
         setAlert({ delete: false, add: false })
+        var token = localStorage.getItem('token');
 
         Axios.post('https://moore-task-app.herokuapp.com/api/add',
             {
                 name: getTask,
+            }, {
+            headers: {
+                'Authorization': token
             }
+        }
         ).then((resp) => {
 
             setBtn('Submit')
@@ -96,11 +111,17 @@ export function Task() {
     function deleteTask(id, data) {
         setAlert({ delete: false, add: false })
         data.preventDefault()
+        var token = localStorage.getItem('token');
 
         Axios.post('https://moore-task-app.herokuapp.com/api/delete',
             {
                 id: id,
+            }, {
+            headers: {
+                'Authorization': token
             }
+        }
+
         ).then((resp) => {
             if (resp.data.status == 'success' && resp.statusText == 'OK') {
                 document.getElementById('form').reset()
@@ -131,7 +152,7 @@ export function Task() {
                     </div>
 
                     <div className="col-md-12">
-                        <form id="form" style={{width:'70%', margin:'auto'}}>
+                        <form id="form" style={{ width: '70%', margin: 'auto' }}>
                             <div className="form-group">
                                 <label htmlFor="exampleInputEmail1">Task Name</label>
                                 <input type="email" className="form-control" name="name" onChange={event => setTask(event.target.value)} placeholder="Enter task" />
@@ -164,28 +185,33 @@ export function Task() {
                             }
                             <br></br>
                             <ol className="padding">
-                                {getAllTask.loading ? (
-                                    getAllTask.tasks.map((task, id) => {
-                                        return (
-
-
-                                            <div className="row" key={task.id} style={{ width: '80%', background: "#e9ebee", borderRadius: 20, marginBottom: 20, padding: "6px" }}>
-                                                <div className="col-md-8 col-xs-6">
-                                                    <li > <b > {task.name}</b>  </li>
+                                {
+                                    getAllTask.loading ? (
+                                        getAllTask.tasks.length !== 0 ? (
+                                        getAllTask.tasks.map((task, id) => {
+                                            return (
+                                                <div className="row" key={task.id} style={{ width: '80%', background: "#e9ebee", borderRadius: 20, marginBottom: 20, padding: "6px" }}>
+                                                    <div className="col-md-8 col-xs-6">
+                                                        <li > <b > {task.name}</b>  </li>
+                                                    </div>
+                                                    <div className="col-md-4 col-xs-6">
+                                                        <a href="#" style={{ color: "red" }} onClick={deleteTask.bind(this, task.id)}><i className="fa fa-trash"></i></a>
+                                                    </div>
                                                 </div>
-                                                <div className="col-md-4 col-xs-6">
-                                                    <a href="#" style={{ color: "red" }} onClick={deleteTask.bind(this, task.id)}><i className="fa fa-trash"></i></a>
-                                                </div>
-                                            </div>
 
-                                        );
+                                            );
 
-                                    })
-                                ) : (
+                                        }) 
+                                    ): (
+                                        <div className="col-md-12 text-center" style={{ margin: "auto" }}>
+                                            <span className="text-primary"><b>No Task yet!</b></span>
+                                        </div>
+                                    )) : (
                                         <div className="col-md-12 text-center" style={{ margin: "auto" }}>
                                             <span className="text-primary"><b>Data Loading...</b></span>
                                         </div>
-                                    )}
+                                    ) 
+                                }
 
 
                             </ol>

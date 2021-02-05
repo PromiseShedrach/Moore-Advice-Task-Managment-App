@@ -24,6 +24,10 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function tasks(){
+        return $this->hasMany('App\Models\Task', 'user_id')->latest();
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

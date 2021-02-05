@@ -2657,7 +2657,6 @@ function Register() {
                     onChange: function onChange(event) {
                       return setPassword(event.target.value);
                     },
-                    id: "exampleInputPassword1",
                     placeholder: "Password"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -2672,7 +2671,6 @@ function Register() {
                     onChange: function onChange(event) {
                       return setConfirmPass(event.target.value);
                     },
-                    id: "exampleInputPassword1",
                     placeholder: "Confirm Password"
                   })]
                 })]
@@ -2834,24 +2832,36 @@ function Task() {
 
   function _fetchTask() {
     _fetchTask = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var token;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("https://moore-task-app.herokuapp.com/api/tasks").then(function (repos) {
-                var data = repos.data;
-                setAllTask({
-                  tasks: data.tasks,
-                  loading: true
-                }); // console.log(data.tasks);
+              token = localStorage.getItem('token');
+              _context.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("https://moore-task-app.herokuapp.com/api/tasks", {
+                headers: {
+                  'Authorization': token
+                }
+              }).then(function (resp) {
+                var data = resp.data; //console.log(data);
+
+                if (resp.data.status == 'success' && resp.statusText == 'OK') {
+                  setAllTask({
+                    tasks: data.tasks,
+                    loading: true
+                  });
+                } else {
+                  alert('An error occurred');
+                } // console.log(data.tasks);
                 // console.log(getAllTask.tasks);
-              })["catch"](function () {
+
+              })["catch"](function (e) {
                 //if an error was found run the api call again
-                console.log('error');
+                console.log(e);
               });
 
-            case 2:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -2876,8 +2886,13 @@ function Task() {
       "delete": false,
       add: false
     });
+    var token = localStorage.getItem('token');
     axios__WEBPACK_IMPORTED_MODULE_2___default().post('https://moore-task-app.herokuapp.com/api/add', {
       name: getTask
+    }, {
+      headers: {
+        'Authorization': token
+      }
     }).then(function (resp) {
       setBtn('Submit');
 
@@ -2905,8 +2920,13 @@ function Task() {
       add: false
     });
     data.preventDefault();
+    var token = localStorage.getItem('token');
     axios__WEBPACK_IMPORTED_MODULE_2___default().post('https://moore-task-app.herokuapp.com/api/delete', {
       id: id
+    }, {
+      headers: {
+        'Authorization': token
+      }
     }).then(function (resp) {
       if (resp.data.status == 'success' && resp.statusText == 'OK') {
         document.getElementById('form').reset();
@@ -3018,7 +3038,7 @@ function Task() {
               })
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ol", {
               className: "padding",
-              children: getAllTask.loading ? getAllTask.tasks.map(function (task, id) {
+              children: getAllTask.loading ? getAllTask.tasks.length !== 0 ? getAllTask.tasks.map(function (task, id) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                   className: "row",
                   style: {
@@ -3049,6 +3069,17 @@ function Task() {
                     })
                   })]
                 }, task.id);
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "col-md-12 text-center",
+                style: {
+                  margin: "auto"
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                  className: "text-primary",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("b", {
+                    children: "No Task yet!"
+                  })
+                })
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "col-md-12 text-center",
                 style: {

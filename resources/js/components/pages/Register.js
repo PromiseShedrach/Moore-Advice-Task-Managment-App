@@ -125,11 +125,11 @@ export function Register() {
                                     </div>
                                     <div className="form-group col-md-12 col-md-offset-4">
                                         <label htmlFor="exampleInputPassword1">Password</label>
-                                        <input type="password" name="password" className="form-control" onChange={event => setPassword(event.target.value)} id="exampleInputPassword1" placeholder="Password" />
+                                        <input type="password" name="password" className="form-control" onChange={event => setPassword(event.target.value)} placeholder="Password" />
                                     </div>
                                     <div className="form-group col-md-12 col-md-offset-4">
                                         <label htmlFor="exampleInputPassword1">Confirm Password</label>
-                                        <input type="password" name="confirm-password" className="form-control" onChange={event => setConfirmPass(event.target.value)} id="exampleInputPassword1" placeholder="Confirm Password" />
+                                        <input type="password" name="confirm-password" className="form-control" onChange={event => setConfirmPass(event.target.value)} placeholder="Confirm Password" />
                                     </div>
                                 </div>
 

@@ -16,22 +16,20 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-
-        $data = Task::latest()->get();
-        $tasks = TaskResource::collection($data);
-        return response()->json([
-            'tasks' => $tasks
-        ]);
-
-        // $token = $request->token;
-        // $user = User::where('api_token', $token)->first();
-        // if($token && $user){
-        //     $data = Task::latest()->get();
-        // $tasks = TaskResource::collection($data);
-        // return response()->json($tasks);
-        // }else{
-        //     return response()->json(['status'=>'error'], 200);
-        // }
+        $token = $request->header('Authorization');
+        $user = User::where('api_token', $token)->first();
+        if ($token && $user) {
+            $data =  $user['tasks'];
+            $tasks = TaskResource::collection($data);
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'tasks' => $tasks
+                ]
+            );
+        } else {
+            return response()->json(['status' => 'error'], 200);
+        }
     }
 
     /**
@@ -41,7 +39,6 @@ class TaskController extends Controller
      */
     public function create(Request $request)
     {
-        
     }
 
     /**
@@ -52,16 +49,23 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        Task::create([
-            'name' => $request->name,
-        ]); 
+        $token = $request->header('Authorization');
+        $user = User::where('api_token', $token)->first();
+        if ($token && $user) {
+            Task::create([
+                'name' => $request->name,
+                'user_id' => $user['id'],
+            ]);
 
-        $data = Task::latest()->get();
-        $tasks = TaskResource::collection($data);
-        return response()->json([
-            'status' => 'success',
-            'tasks' => $tasks
-        ]);
+            $data =  $user['tasks'];
+            $tasks = TaskResource::collection($data);
+            return response()->json([
+                'status' => 'success',
+                'tasks' => $tasks
+            ]);
+        } else {
+            return response()->json(['status' => 'error'], 200);
+        }
     }
 
     /**
@@ -72,8 +76,8 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $data = Task::find($id);
-        return response()->json($data);
+        // $data = Task::find($id);
+        // return response()->json($data);
     }
 
     /**
@@ -84,8 +88,8 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $data = Task::find($id);
-        return response()->json($data);
+        // $data = Task::find($id);
+        // return response()->json($data);
     }
 
     /**
@@ -97,16 +101,22 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Task::find($id);
-        $data->name = $request->name;
-        $data->update();
+        // $token = $request->header('Authorization');
+        // $user = User::where('api_token', $token)->first();
+        // if ($token && $user) {
+        //     $data = Task::find($id);
+        //     $data->name = $request->name;
+        //     $data->update();
 
-        $newData = Task::latest()->get();
-        $tasks = TaskResource::collection($newData);
-        return response()->json([
-            'status' => 'success',
-            'tasks' => $tasks
-        ]);
+        //     $newData = Task::latest()->get();
+        //     $tasks = TaskResource::collection($newData);
+        //     return response()->json([
+        //         'status' => 'success',
+        //         'tasks' => $tasks
+        //     ]);
+        // } else {
+        //     return response()->json(['status' => 'error'], 200);
+        // }
     }
 
     /**
@@ -117,15 +127,21 @@ class TaskController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->id;
-        $data = Task::find($id);
-        $data->delete();
+        $token = $request->header('Authorization');
+        $user = User::where('api_token', $token)->first();
+        if ($token && $user) {
+            $id = $request->id;
+            $data = Task::find($id);
+            $data->delete();
 
-        $newData = Task::latest()->get();
-        $tasks = TaskResource::collection($newData);
-        return response()->json([
-            'status' => 'success',
-            'tasks' => $tasks
-        ]);
+            $newData =  $user['tasks'];
+            $tasks = TaskResource::collection($newData);
+            return response()->json([
+                'status' => 'success',
+                'tasks' => $tasks
+            ]);
+        } else {
+            return response()->json(['status' => 'error'], 200);
+        }
     }
 }
